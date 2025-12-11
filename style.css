@@ -1,0 +1,969 @@
+:root {
+    --christmas-red: #c41e3a;
+    --christmas-green: #228b22;
+    --christmas-gold: #ffd700;
+    --christmas-blue: #1e3a8a;
+    --snow-white: #f8f9fa;
+    --primary: #c41e3a;
+    --secondary: #228b22;
+    --light: #fffaf0;
+    --dark: #1a1a2e;
+    --gray: #6c757d;
+    --success: #ffd700;
+    --border-radius: 15px; /* Увеличил радиус */
+    --transition: all 0.3s ease;
+}
+
+[data-theme="dark"] {
+    --light: #1a1a2e;
+    --dark: #f8f9fa;
+    --gray: #adb5bd;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', 'Comic Sans MS', cursive, sans-serif;
+}
+
+body {
+    background-color: var(--light);
+    color: var(--dark);
+    transition: var(--transition);
+    line-height: 1.7; /* Увеличил межстрочный интервал */
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(195, 30, 58, 0.1) 0%, transparent 20%);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 25px; /* Увеличил боковые отступы */
+}
+
+/* Снежинки - исправленная версия */
+#snowflakes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10000;
+}
+
+.snowflake {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.8;
+    animation: fall linear infinite;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-10px) rotate(0deg);
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+    }
+}
+
+/* Гирлянды */
+.lights {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(90deg,
+        #ff0000, #00ff00, #0000ff, #ffff00, #ff00ff,
+        #00ffff, #ff0000);
+    background-size: 200% 100%;
+    animation: lights 2s linear infinite;
+    z-index: 9999;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+@keyframes lights {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+/* Шапка - увеличенные отступы */
+.new-year-header {
+    background: linear-gradient(135deg, var(--christmas-red), var(--christmas-green));
+    color: white;
+    padding: 4rem 0; /* Увеличил отступы сверху/снизу */
+    text-align: center;
+    margin-bottom: 3rem; /* Увеличил отступ снизу */
+    position: relative;
+    overflow: hidden;
+}
+
+.new-year-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 2%, transparent 4%),
+        radial-gradient(circle at 40% 20%, rgba(255,255,255,0.1) 2%, transparent 4%),
+        radial-gradient(circle at 80% 40%, rgba(255,255,255,0.1) 2%, transparent 4%);
+    background-size: 300px 300px;
+}
+
+.header-content {
+    position: relative;
+    z-index: 1;
+}
+
+.new-year-header h1 {
+    font-size: 3.5rem; /* Увеличил размер */
+    margin-bottom: 1rem; /* Увеличил отступ */
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+    animation: pulse 2s infinite;
+}
+
+.new-year-header p {
+    font-size: 1.3rem; /* Увеличил размер */
+    margin-top: 1rem; /* Добавил отступ */
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.santa-hat {
+    animation: swing 3s ease-in-out infinite;
+}
+
+@keyframes swing {
+    0%, 100% { transform: rotate(-10deg); }
+    50% { transform: rotate(10deg); }
+}
+
+/* Навигация - больше отступов */
+.christmas-nav {
+    background: linear-gradient(to right, var(--christmas-green), var(--christmas-red));
+    color: white;
+    padding: 1.2rem 0; /* Увеличил отступы */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3); /* Увеличил тень */
+}
+
+.christmas-nav .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem; /* Увеличил расстояние между элементами */
+}
+
+.christmas-nav a, #themeToggle, #toggleSnow {
+    color: white;
+    text-decoration: none;
+    padding: 0.9rem 1.8rem; /* Увеличил размер кнопок */
+    border-radius: 30px; /* Более круглые кнопки */
+    transition: var(--transition);
+    background: rgba(255,255,255,0.15); /* Чуть менее прозрачные */
+    border: 2px solid rgba(255,255,255,0.4); /* Более яркая граница */
+    cursor: pointer;
+    font-size: 1.1rem; /* Увеличил шрифт */
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem; /* Увеличил расстояние между иконкой и текстом */
+    backdrop-filter: blur(10px);
+}
+
+.christmas-nav a:hover, #themeToggle:hover, #toggleSnow:hover {
+    background: rgba(255,255,255,0.25);
+    transform: translateY(-3px); /* Больший подъем при наведении */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4); /* Усиленная тень */
+}
+
+/* Основной контент - больше отступов */
+main.container {
+    padding-top: 2rem; /* Отступ сверху */
+    padding-bottom: 3rem; /* Отступ снизу */
+}
+
+/* Отступы для секций - УВЕЛИЧЕНЫ */
+.section-with-padding {
+    margin: 4rem 0; /* Увеличил вертикальные отступы */
+    padding: 3rem 0; /* Увеличил внутренние отступы */
+}
+
+/* Карточки с увеличенными отступами */
+.christmas-card {
+    background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(240,240,240,0.95));
+    border: 3px solid;
+    border-image: linear-gradient(45deg, var(--christmas-red), var(--christmas-gold), var(--christmas-green)) 1;
+    box-shadow: 0 15px 35px rgba(195, 30, 58, 0.25); /* Увеличил тень */
+    position: relative;
+    overflow: hidden;
+    padding: 2.5rem; /* Увеличил внутренние отступы */
+    margin-bottom: 2.5rem; /* Отступ между карточками */
+}
+
+.christmas-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(255, 215, 0, 0.15) 50%, /* Увеличил прозрачность */
+        transparent 70%
+    );
+    animation: shine 3s infinite linear;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+.card-header {
+    margin-bottom: 2rem; /* Увеличил отступ */
+}
+
+.card-tag {
+    display: inline-block;
+    background: linear-gradient(45deg, var(--christmas-red), var(--christmas-gold));
+    color: white;
+    padding: 0.7rem 1.8rem; /* Увеличил размер */
+    border-radius: 25px; /* Более круглый */
+    font-weight: bold;
+    font-size: 1rem; /* Увеличил шрифт */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25); /* Увеличил тень */
+    margin-bottom: 1.5rem; /* Отступ снизу */
+}
+
+/* Заголовки секций */
+h2 {
+    color: var(--christmas-red);
+    margin-bottom: 2.5rem; /* Увеличил отступ снизу */
+    font-size: 2.3rem; /* Увеличил размер */
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* Отступ между иконкой и текстом */
+    padding-bottom: 0.8rem;
+    border-bottom: 3px solid var(--christmas-gold);
+}
+
+h2 i {
+    color: var(--christmas-gold);
+}
+
+/* Кнопки - увеличенные */
+.christmas-button {
+    background: linear-gradient(45deg, var(--christmas-red), var(--christmas-green));
+    color: white;
+    border: none;
+    padding: 1.2rem 2.5rem; /* Увеличил размер */
+    border-radius: 30px; /* Более круглые */
+    cursor: pointer;
+    font-size: 1.1rem; /* Увеличил шрифт */
+    font-weight: bold;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem; /* Увеличил отступ между иконкой и текстом */
+    box-shadow: 0 8px 20px rgba(195, 30, 58, 0.5); /* Увеличил тень */
+    margin-top: 1.5rem; /* Отступ сверху */
+}
+
+.christmas-button:hover {
+    transform: translateY(-4px) scale(1.05); /* Больший подъем */
+    box-shadow: 0 15px 30px rgba(195, 30, 58, 0.7);
+    background: linear-gradient(45deg, var(--christmas-green), var(--christmas-red));
+}
+
+.christmas-button:active {
+    transform: translateY(2px);
+}
+
+/* Группы форм - увеличенные отступы */
+.form-group {
+    margin-bottom: 2rem; /* Увеличил расстояние между полями */
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 1.2rem; /* Увеличил внутренние отступы */
+    border: 3px solid var(--christmas-red); /* Утолщил границу */
+    border-radius: 12px; /* Увеличил радиус */
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--dark);
+    font-size: 1.1rem; /* Увеличил шрифт */
+    transition: var(--transition);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--christmas-gold);
+    box-shadow: 0 0 0 5px rgba(195, 30, 58, 0.15); /* Увеличил свечение */
+}
+
+/* Навыки - увеличенные отступы */
+.skill-bar {
+    margin: 2rem 0; /* Увеличил вертикальные отступы */
+    padding: 1.8rem; /* Увеличил внутренние отступы */
+    background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.1));
+    border-radius: 15px; /* Увеличил радиус */
+    border-left: 6px solid var(--christmas-gold); /* Утолщил границу */
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,215,0,0.2), transparent);
+    transform: translateX(-100%);
+    animation: skillShine 3s infinite;
+}
+
+@keyframes skillShine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.skill-bar span:first-child {
+    display: block;
+    font-weight: bold;
+    color: var(--light);
+    margin-bottom: 1rem; /* Увеличил отступ */
+    font-size: 1.3rem; /* Увеличил шрифт */
+}
+
+.bar {
+    background: rgba(195, 30, 58, 0.15); /* Чуть менее прозрачный */
+    height: 16px; /* Увеличил высоту */
+    border-radius: 8px; /* Увеличил радиус */
+    overflow: hidden;
+    margin-top: 1rem; /* Увеличил отступ сверху */
+    border: 3px solid rgba(195, 30, 58, 0.25); /* Утолщил границу */
+}
+
+.progress {
+    background: linear-gradient(90deg, var(--christmas-red), var(--christmas-gold));
+    height: 100%;
+    border-radius: 8px; /* Увеличил радиус */
+    transition: width 1s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 30%,
+        rgba(255,255,255,0.4) 50%, /* Увеличил прозрачность */
+        transparent 70%
+    );
+    animation: progressShine 2s infinite;
+}
+
+@keyframes progressShine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Проценты в навыках - увеличенные */
+.skill-percent {
+    position: absolute;
+    right: 2rem; /* Увеличил отступ справа */
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+    color: var(--christmas-gold);
+    font-size: 1.4rem; /* Увеличил шрифт */
+    text-shadow: 0 0 15px rgba(255,215,0,0.7); /* Усилил свечение */
+}
+
+/* Посты - увеличенные отступы */
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); /* Увеличил минимальную ширину */
+    gap: 2.5rem; /* Увеличил расстояние между карточками */
+    margin-top: 2.5rem; /* Увеличил отступ сверху */
+}
+
+.post {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 2.2rem; /* Увеличил внутренние отступы */
+    transition: var(--transition);
+    border: 3px solid transparent; /* Утолщил границу */
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(45deg, var(--christmas-red), var(--christmas-gold), var(--christmas-green)) border-box;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15); /* Увеличил тень */
+    position: relative;
+    margin-bottom: 1.5rem; /* Отступ снизу */
+}
+
+.post:hover {
+    transform: translateY(-12px) rotate(1deg); /* Больший подъем */
+    box-shadow: 0 20px 40px rgba(195, 30, 58, 0.35); /* Усиленная тень */
+}
+
+.post::before {
+    content: '🎄';
+    position: absolute;
+    top: -18px; /* Увеличил отступ */
+    right: -18px; /* Увеличил отступ */
+    font-size: 2.5rem; /* Увеличил размер */
+    animation: swing 2s infinite;
+}
+
+.post-category {
+    display: inline-block;
+    background: linear-gradient(45deg, var(--christmas-green), var(--christmas-blue));
+    color: white;
+    padding: 0.7rem 1.5rem; /* Увеличил размер */
+    border-radius: 25px; /* Более круглый */
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem; /* Увеличил отступ снизу */
+    font-weight: bold;
+}
+
+.post-tags {
+    display: flex;
+    gap: 0.8rem; /* Увеличил расстояние между тегами */
+    margin: 1.5rem 0; /* Увеличил отступы */
+    flex-wrap: wrap;
+}
+
+.tag {
+    background: var(--christmas-gold);
+    color: var(--christmas-red);
+    padding: 0.4rem 1rem; /* Увеличил размер */
+    border-radius: 20px; /* Более круглый */
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.post-date {
+    color: var(--christmas-red);
+    font-size: 1rem; /* Увеличил шрифт */
+    margin-top: 1.5rem; /* Увеличил отступ сверху */
+    font-weight: bold;
+}
+
+/* Вехи достижений - увеличенные отступы */
+.milestones-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Увеличил минимальную ширину */
+    gap: 2.5rem; /* Увеличил расстояние */
+    margin-top: 2rem; /* Увеличил отступ сверху */
+}
+
+.milestone {
+    text-align: center;
+    padding: 2.5rem; /* Увеличил внутренние отступы */
+    background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(240,240,240,0.95));
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    border: 3px solid transparent; /* Утолщил границу */
+    background-clip: padding-box;
+    position: relative;
+    overflow: hidden;
+}
+
+.milestone::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px; /* Увеличил высоту */
+    background: linear-gradient(90deg, var(--christmas-red), var(--christmas-gold), var(--christmas-green));
+}
+
+.milestone:hover {
+    transform: translateY(-12px); /* Больший подъем */
+    box-shadow: 0 20px 40px rgba(195, 30, 58, 0.35); /* Усиленная тень */
+}
+
+.milestone-icon {
+    width: 90px; /* Увеличил размер */
+    height: 90px; /* Увеличил размер */
+    margin: 0 auto 1.5rem; /* Увеличил отступ снизу */
+    background: linear-gradient(45deg, var(--christmas-red), var(--christmas-gold));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2.3rem; /* Увеличил иконку */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25); /* Увеличил тень */
+}
+
+/* Подвал - увеличенные отступы */
+.christmas-footer {
+    background: linear-gradient(135deg, var(--christmas-green), var(--christmas-blue));
+    color: white;
+    padding: 3rem 0; /* Увеличил отступы */
+    margin-top: 5rem; /* Увеличил отступ сверху */
+    text-align: center;
+    position: relative;
+}
+
+.christmas-footer::before {
+    content: '🎄 🎅 🎁 ✨';
+    position: absolute;
+    top: -25px; /* Увеличил отступ */
+    left: 0;
+    right: 0;
+    font-size: 2rem; /* Увеличил размер */
+    letter-spacing: 15px; /* Увеличил расстояние между символами */
+}
+
+.christmas-footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem; /* Увеличил расстояние между элементами */
+}
+
+.christmas-footer p {
+    font-size: 1.2rem; /* Увеличил шрифт */
+}
+
+.social {
+    display: flex;
+    gap: 2rem; /* Увеличил расстояние между иконками */
+}
+
+.social a {
+    color: white;
+    font-size: 1.8rem; /* Увеличил иконки */
+    transition: var(--transition);
+    width: 60px; /* Увеличил размер */
+    height: 60px; /* Увеличил размер */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.15); /* Чуть менее прозрачный */
+    border: 3px solid rgba(255,255,255,0.4); /* Утолщил границу */
+}
+
+.social a:hover {
+    background: rgba(255,255,255,0.25);
+    transform: translateY(-8px) rotate(10deg); /* Больший подъем */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4); /* Усиленная тень */
+}
+
+/* Модальное окно - увеличенные отступы */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20000; /* Увеличил z-index */
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Более темный фон */
+    backdrop-filter: blur(8px); /* Увеличил размытие */
+}
+
+.modal-content {
+    position: relative;
+    z-index: 20001;
+    background: var(--dark);
+    color: var(--light);
+    padding: 3rem; /* Увеличил внутренние отступы */
+    border-radius: 20px; /* Увеличил радиус */
+    width: 90%;
+    max-width: 700px; /* Увеличил максимальную ширину */
+    max-height: 85vh; /* Увеличил высоту */
+    overflow-y: auto;
+    border: 4px solid; /* Утолщил границу */
+    border-image: linear-gradient(45deg, var(--christmas-gold), var(--christmas-red)) 1;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7); /* Увеличил тень */
+    animation: modalAppear 0.3s ease;
+}
+
+.christmas-modal {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+}
+
+@keyframes modalAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-30px); /* Больший сдвиг */
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Остальные стили остаются примерно такими же, но с увеличенными отступами */
+
+/* Подсветка текста */
+.highlight {
+    background: linear-gradient(45deg, var(--christmas-gold), var(--christmas-red));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+    font-size: 1.4em; /* Увеличил размер */
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .new-year-header {
+        padding: 3rem 0;
+    }
+    
+    .new-year-header h1 {
+        font-size: 2.5rem;
+    }
+    
+    .christmas-nav .container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .christmas-nav a,
+    .christmas-nav button {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .section-with-padding {
+        margin: 3rem 0;
+        padding: 2rem 0;
+    }
+    
+    .posts-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .christmas-card {
+        padding: 2rem;
+    }
+    
+    .milestones-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .christmas-footer .container {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+    }
+    
+    .modal-content {
+        width: 95%;
+        padding: 2rem;
+    }
+}
+/* ===== Вариант 1: Анимированная панель ===== */
+.contact-telegram {
+    margin-top: 30px;
+    padding: 20px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.telegram-card {
+    background: linear-gradient(135deg, #0088cc 0%, #24a1de 100%);
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 136, 204, 0.3);
+    animation: floatCard 3s ease-in-out infinite;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.telegram-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 136, 204, 0.5);
+}
+
+.telegram-icon {
+    font-size: 40px;
+    margin-right: 20px;
+    animation: pulse 2s infinite;
+}
+
+.telegram-content h3 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+}
+
+.telegram-content p {
+    margin: 0 0 10px 0;
+    opacity: 0.9;
+    font-size: 14px;
+}
+
+.telegram-username {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.telegram-label {
+    font-weight: bold;
+}
+
+.telegram-link {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 15px;
+    border-radius: 25px;
+    color: white;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.telegram-link:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: white;
+    transform: scale(1.05);
+}
+
+.telegram-arrow {
+    margin-left: auto;
+    opacity: 0.7;
+    transition: transform 0.3s ease;
+}
+
+.telegram-card:hover .telegram-arrow {
+    transform: translateX(5px);
+}
+
+/* ===== Вариант 2: Плавающая кнопка ===== */
+.telegram-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.telegram-float-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #0088cc 0%, #24a1de 100%);
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 136, 204, 0.4);
+    transition: all 0.3s ease;
+    animation: slideInRight 0.5s ease-out, pulse 2s infinite 1s;
+}
+
+.telegram-float-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 136, 204, 0.6);
+}
+
+.telegram-text {
+    font-weight: 600;
+}
+
+/* ===== Вариант 3: Мини-блок ===== */
+.telegram-mini {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(0, 136, 204, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 136, 204, 0.3);
+}
+
+.telegram-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #0088cc;
+    color: white;
+    padding: 6px 15px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.username-animation {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.username-label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #0088cc;
+    animation: typewriter 4s steps(20) 1s infinite alternate;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 2px solid #0088cc;
+}
+
+.pulse-dot {
+    width: 10px;
+    height: 10px;
+    background: #00ff88;
+    border-radius: 50%;
+    animation: statusPulse 2s infinite;
+}
+
+/* ===== Анимации ===== */
+@keyframes floatCard {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes typewriter {
+    0% {
+        width: 0;
+    }
+    50% {
+        width: 100%;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes statusPulse {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7);
+    }
+    70% {
+        opacity: 0.7;
+        box-shadow: 0 0 0 10px rgba(0, 255, 136, 0);
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .telegram-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 25px 15px;
+    }
+    
+    .telegram-icon {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    .telegram-arrow {
+        display: none;
+    }
+    
+    .telegram-username {
+        justify-content: center;
+    }
+    
+    .telegram-float-btn .telegram-text {
+        display: none;
+    }
+    
+    .telegram-float-btn {
+        padding: 15px;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        justify-content: center;
+    }
+}

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой путь в программировании 🎄</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Снежинки будут созданы через JS -->
+    <div id="snowflakes"></div>
+    
+    <!-- Новогодние гирлянды -->
+    <div class="lights"></div>
+    
+    <header class="new-year-header">
+        <div class="container">
+            <div class="header-content">
+                <h1>🚀 Мой путь в IT <span class="santa-hat">🎅</span></h1>
+                <p>Дневник прогресса в программировании • Новогоднее обновление 🎄</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="christmas-nav">
+        <div class="container">
+            <a href="#about"><i class="fas fa-home"></i> Главная</a>
+            <a href="#posts"><i class="fas fa-book"></i> Записи</a>
+            <a href="#milestones"><i class="fas fa-trophy"></i> Достижения</a>
+            <button id="themeToggle"><i class="fas fa-moon"></i> Тема</button>
+            <button id="toggleSnow"><i class="fas fa-snowflake"></i> Снег</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="about" class="section-with-padding">
+            <h2><i class="fas fa-gift"></i> Обо мне</h2>
+            <div class="card christmas-card">
+                <div class="card-header">
+                    <span class="card-tag">🎄 Новогодние достижения</span>
+                </div>
+                <p>Привет! Я изучаю программирование уже <span id="daysCounter" class="highlight">10</span> дней.</p>
+                <p><strong>Текущая цель:</strong> <span id="currentGoal">Создать новогодний проект на C#</span></p>
+                <div class="skills" id="skillsContainer">
+                    <h3><i class="fas fa-star"></i> Мои навыки:</h3>
+                    <!-- Навыки будут загружены через JS -->
+                </div>
+                <button id="editSkillsBtn" class="christmas-button" style="margin-top: 20px;">
+                    <i class="fas fa-edit"></i> Редактировать навыки
+                </button>
+            </div>
+        </section>
+
+        <section id="addPost" class="section-with-padding">
+            <h2><i class="fas fa-plus-circle"></i> Новая запись о прогрессе</h2>
+            <div class="card christmas-card">
+                <div class="card-header">
+                    <span class="card-tag">✏️ Новая запись</span>
+                </div>
+                <form id="postForm">
+                    <div class="form-group">
+                        <input type="text" id="postTitle" placeholder="Что нового я узнал сегодня?" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="postContent" placeholder="Опиши свои успехи и планы на следующий год..." rows="6" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <select id="postCategory">
+                            <option value="general">🎁 Общие мысли</option>
+                            <option value="csharp">🔷 C# / .NET</option>
+                            <option value="javascript">🟨 JavaScript</option>
+                            <option value="python">🐍 Python</option>
+                            <option value="web">🌐 Веб-разработка</option>
+                            <option value="algorithms">🧮 Алгоритмы</option>
+                            <option value="projects">🎅 Новогодние проекты</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="christmas-button">
+                        <i class="fas fa-rocket"></i> Зафиксировать прогресс
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <section id="posts" class="section-with-padding">
+            <h2><i class="fas fa-tree"></i> Мои записи</h2>
+            <div class="posts-grid" id="postsContainer">
+                <!-- Посты будут добавляться через JS -->
+            </div>
+        </section>
+
+        <section id="milestones" class="section-with-padding">
+            <h2><i class="fas fa-trophy"></i> Достижения 2025</h2>
+            <div class="card christmas-card">
+                <div class="card-header">
+                    <span class="card-tag">🏆 Годовой отчет</span>
+                </div>
+                <div class="milestones-grid">
+                    <div class="milestone">
+                        <div class="milestone-icon">
+                            <i class="fas fa-code fa-2x"></i>
+                        </div>
+                        <h3>10+ часов кода</h3>
+                        <p>Более 10 часов практики программирования</p>
+                    </div>
+                    <div class="milestone">
+                        <div class="milestone-icon">
+                            <i class="fas fa-project-diagram fa-2x"></i>
+                        </div>
+                        <h3>1+ проектов</h3>
+                        <p>Завершённые учебные и пет-проекты</p>
+                    </div>
+                    <div class="milestone">
+                        <div class="milestone-icon">
+                            <i class="fas fa-book fa-2x"></i>
+                        </div>
+                        <h3>1+ курсов</h3>
+                        <p>Пройденные онлайн-курсы и туториалы</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="christmas-footer">
+    <div class="container">
+        <p>🎄 © 2025 Мой учебный блог | В пути: <span id="learningTime">10 дней</span> 🎄</p>
+        
+        <!-- Telegram контакт -->
+        <div class="contact-telegram">
+            <div class="telegram-card">
+                <div class="telegram-icon">
+                    <i class="fab fa-telegram-plane"></i>
+                </div>
+                <div class="telegram-content">
+                    <h3>Свяжитесь со мной</h3>
+                    <p>Есть вопросы или предложения? Напишите мне в Telegram!</p>
+                    <div class="telegram-username">
+                        <span class="telegram-label">Telegram:</span>
+                        <a href="https://t.me/ваш_ник" target="_blank" class="telegram-link">
+                            <i class="fab fa-telegram"></i>
+                            @blassedname
+                        </a>
+                    </div>
+                </div>
+                <div class="telegram-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="social">
+            <a href="#"><i class="fab fa-github"></i> GitHub</a>
+            <a href="#"><i class="fab fa-codepen"></i> CodePen</a>
+            <a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a>
+        </div>
+    </div>
+</footer>
+    <!-- Модальное окно для редактирования навыков -->
+    <div id="skillsModal" class="modal">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        <div class="modal-content christmas-modal">
+            <h3><i class="fas fa-cogs"></i> Редактировать навыки</h3>
+            <div id="skillsForm"></div>
+            <div class="modal-buttons">
+                <button id="saveSkillsBtn" class="christmas-button"><i class="fas fa-save"></i> Сохранить</button>
+                <button id="closeModalBtn" class="secondary-btn"><i class="fas fa-times"></i> Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
