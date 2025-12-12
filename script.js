@@ -131,12 +131,7 @@ class AdminProtection {
                         </button>
                     </div>
                     
-                    <div style="margin-top: 20px; padding: 15px; 
-                         background: rgba(58, 134, 255, 0.1); 
-                         border-radius: 10px; border-left: 4px solid #3a86ff;">
-                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                            <i class="fas fa-info-circle" style="color: #3a86ff;"></i>
-                            <span style="color: #778da9; font-size: 0.9em;">Для демонстрации</span>
+                    
                         </div>
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <span style="color: #e2e2e2; font-weight: bold;">Пароль:</span>
@@ -173,7 +168,7 @@ class AdminProtection {
         const showHintBtn = document.getElementById('showHint');
         const hintPassword = document.getElementById('hintPassword');
         
-        const ADMIN_PASSWORD = "newyear2025";
+        const ADMIN_PASSWORD = "Ilovevika193";
         
         const closeModal = () => {
             if (modal) {
