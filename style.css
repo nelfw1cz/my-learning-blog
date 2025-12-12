@@ -977,3 +977,42 @@ h2 i {
         justify-content: center;
     }
 }
+/* Анимации для модального окна входа */
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+/* Кнопка входа в навигации */
+#adminLoginBtn {
+    background: linear-gradient(45deg, #ff6b6b, #ffa726) !important;
+    margin-left: auto;
+}
+
+#adminLoginBtn:hover {
+    background: linear-gradient(45deg, #ff5252, #ff9800) !important;
+    transform: translateY(-2px);
+}
+
+/* Анимация для уведомлений */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
