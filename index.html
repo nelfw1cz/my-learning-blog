@@ -170,5 +170,81 @@
     </div>
 
     <script src="script.js"></script>
+    <!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Галерея кода</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-code"></i> Моя галерея кода</h1>
+        <p>Коллекция моих проектов и сниппетов</p>
+    </header>
+
+    <main>
+        <div class="controls">
+            <button class="filter-btn active" data-filter="all">Все проекты</button>
+            <button class="filter-btn" data-filter="cpp">C++</button>
+            <button class="filter-btn" data-filter="python">Python</button>
+            <button class="filter-btn" data-filter="web">Web</button>
+            <button class="filter-btn" data-filter="game">Игры</button>
+        </div>
+
+        <div class="gallery" id="codeGallery">
+            <!-- Карточки будут добавляться через JavaScript -->
+        </div>
+
+        <div class="upload-section">
+            <h2><i class="fas fa-upload"></i> Добавить новый код</h2>
+            <div class="upload-form">
+                <input type="text" id="codeTitle" placeholder="Название проекта" required>
+                <textarea id="codeDescription" placeholder="Описание кода..." rows="3"></textarea>
+                <textarea id="codeContent" placeholder="Вставьте ваш код здесь..." rows="6"></textarea>
+                <select id="codeLanguage">
+                    <option value="cpp">C++</option>
+                    <option value="python">Python</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="html">HTML/CSS</option>
+                    <option value="other">Другое</option>
+                </select>
+                <input type="text" id="codeTags" placeholder="Теги (через запятую)">
+                <button onclick="addCodeCard()"><i class="fas fa-plus"></i> Добавить в галерею</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 Галерея кода. Все права защищены.</p>
+    </footer>
+
+    <!-- Модальное окно для просмотра кода -->
+    <div class="modal" id="codeModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle"></h2>
+            <div class="code-info">
+                <span class="language" id="modalLang"></span>
+                <span class="date" id="modalDate"></span>
+            </div>
+            <pre><code id="modalCode"></code></pre>
+            <p id="modalDesc"></p>
+            <div class="modal-tags" id="modalTags"></div>
+            <div class="modal-actions">
+                <button onclick="copyCode()"><i class="far fa-copy"></i> Копировать код</button>
+                <button onclick="downloadCode()"><i class="fas fa-download"></i> Скачать</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <!-- Подсветка синтаксиса -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>
 </body>
 </html>

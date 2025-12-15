@@ -1154,3 +1154,297 @@ document.head.insertAdjacentHTML('beforeend', `
     }
 </style>
 `);
+// Пример данных для галереи
+let codeSnippets = [
+    {
+        id: 1,
+        title: "Hello World на C++",
+        language: "cpp",
+        code: `#include <iostream>\n\nint main() {\n    std::cout << "Hello, World!" << std::endl;\n    return 0;\n}`,
+        description: "Классическая первая программа",
+        tags: ["начало", "базовый", "пример"],
+        date: "2024-01-15"
+    },
+    {
+        id: 2,
+        title: "Калькулятор на Python",
+        language: "python",
+        code: `def calculator():\n    while True:\n        try:\n            num1 = float(input("Введите первое число: "))\n            operator = input("Введите оператор (+, -, *, /): ")\n            num2 = float(input("Введите второе число: "))\n            \n            if operator == '+':\n                result = num1 + num2\n            elif operator == '-':\n                result = num1 - num2\n            elif operator == '*':\n                result = num1 * num2\n            elif operator == '/':\n                result = num1 / num2\n            else:\n                print("Неверный оператор!")\n                continue\n                \n            print(f"Результат: {result}")\n        except:\n            print("Ошибка!")`,
+        description: "Простой консольный калькулятор",
+        tags: ["калькулятор", "python", "начальный"],
+        date: "2024-01-20"
+    },
+    {
+        id: 3,
+        title: "Игра 'Угадай число'",
+        language: "cpp",
+        code: `#include <iostream>\n#include <cstdlib>\n#include <ctime>\n\nusing namespace std;\n\nint main() {\n    srand(time(0));\n    int secret = rand() % 100 + 1;\n    int guess, attempts = 0;\n    \n    cout << "Угадайте число от 1 до 100!" << endl;\n    \n    do {\n        cout << "Ваша попытка: ";\n        cin >> guess;\n        attempts++;\n        \n        if (guess < secret) cout << "Слишком мало!" << endl;\n        else if (guess > secret) cout << "Слишком много!" << endl;\n    } while (guess != secret);\n    \n    cout << "Поздравляем! Вы угадали за " << attempts << " попыток." << endl;\n    return 0;\n}`,
+        description: "Консольная игра на C++",
+        tags: ["игра", "c++", "развлечение"],
+        date: "2024-01-25"
+    }
+];
+
+// Инициализация галереи
+document.addEventListener('DOMContentLoaded', function() {
+    renderGallery();
+    setupFilterButtons();
+});
+
+// Рендеринг галереи
+function renderGallery(filter = 'all') {
+    const gallery = document.getElementById('codeGallery');
+    gallery.innerHTML = '';
+    
+    const filteredSnippets = filter === 'all' 
+        ? codeSnippets 
+        : codeSnippets.filter(snippet => snippet.language === filter);
+    
+    filteredSnippets.forEach(snippet => {
+        const card = document.createElement('div');
+        card.className = 'code-card';
+        card.dataset.id = snippet.id;
+        card.onclick = () => openModal(snippet);
+        
+        // Обрезаем код для превью
+        const previewCode = snippet.code.length > 100 
+            ? snippet.code.substring(0, 100) + '...' 
+            : snippet.code;
+        
+        card.innerHTML = `
+            <h3>${snippet.title}</h3>
+            <div class="language">${getLanguageName(snippet.language)}</div>
+            <div class="code-preview">
+                <pre><code class="language-${snippet.language}">${escapeHtml(previewCode)}</code></pre>
+            </div>
+            <p>${snippet.description}</p>
+            <div class="tags">
+                ${snippet.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+            </div>
+            <div class="date">${snippet.date}</div>
+        `;
+        
+        gallery.appendChild(card);
+    });
+    
+    // Переинициализируем подсветку синтаксиса
+    if (window.hljs) {
+        document.querySelectorAll('pre code').forEach((block) => {
+            hljs.highlightElement(block);
+        });
+    }
+}
+
+// Настройка кнопок фильтрации
+function setupFilterButtons() {
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Убираем активный класс у всех кнопок
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            // Добавляем активный класс текущей кнопке
+            this.classList.add('active');
+            // Применяем фильтр
+            renderGallery(this.dataset.filter);
+        });
+    });
+}
+
+// Добавление новой карточки
+function addCodeCard() {
+    const title = document.getElementById('codeTitle').value.trim();
+    const description = document.getElementById('codeDescription').value.trim();
+    const code = document.getElementById('codeContent').value.trim();
+    const language = document.getElementById('codeLanguage').value;
+    const tags = document.getElementById('codeTags').value.split(',').map(tag => tag.trim()).filter(tag => tag);
+    
+    if (!title || !code) {
+        alert('Пожалуйста, заполните название и код');
+        return;
+    }
+    
+    const newSnippet = {
+        id: Date.now(), // Используем timestamp как ID
+        title,
+        language,
+        code,
+        description: description || 'Без описания',
+        tags: tags.length ? tags : ['новый'],
+        date: new Date().toISOString().split('T')[0]
+    };
+    
+    codeSnippets.unshift(newSnippet); // Добавляем в начало
+    renderGallery();
+    clearForm();
+    
+    // Показываем уведомление
+    showNotification('Код успешно добавлен в галерею!');
+}
+
+// Очистка формы
+function clearForm() {
+    document.getElementById('codeTitle').value = '';
+    document.getElementById('codeDescription').value = '';
+    document.getElementById('codeContent').value = '';
+    document.getElementById('codeTags').value = '';
+}
+
+// Открытие модального окна
+function openModal(snippet) {
+    document.getElementById('modalTitle').textContent = snippet.title;
+    document.getElementById('modalLang').textContent = getLanguageName(snippet.language);
+    document.getElementById('modalDate').textContent = snippet.date;
+    document.getElementById('modalCode').textContent = snippet.code;
+    document.getElementById('modalCode').className = `language-${snippet.language}`;
+    document.getElementById('modalDesc').textContent = snippet.description;
+    
+    const tagsContainer = document.getElementById('modalTags');
+    tagsContainer.innerHTML = snippet.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+    
+    // Подсветка синтаксиса
+    if (window.hljs) {
+        hljs.highlightElement(document.getElementById('modalCode'));
+    }
+    
+    document.getElementById('codeModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+    
+    // Сохраняем текущий сниппет для копирования/скачивания
+    window.currentSnippet = snippet;
+}
+
+// Закрытие модального окна
+function closeModal() {
+    document.getElementById('codeModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+    window.currentSnippet = null;
+}
+
+// Копирование кода
+function copyCode() {
+    if (!window.currentSnippet) return;
+    
+    navigator.clipboard.writeText(window.currentSnippet.code)
+        .then(() => {
+            showNotification('Код скопирован в буфер обмена!');
+        })
+        .catch(err => {
+            console.error('Ошибка копирования:', err);
+            showNotification('Ошибка при копировании', 'error');
+        });
+}
+
+// Скачивание кода
+function downloadCode() {
+    if (!window.currentSnippet) return;
+    
+    const snippet = window.currentSnippet;
+    const extension = getFileExtension(snippet.language);
+    const filename = `${snippet.title.replace(/[^a-z0-9]/gi, '_')}.${extension}`;
+    const content = snippet.code;
+    
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    showNotification('Код скачан!');
+}
+
+// Вспомогательные функции
+function getLanguageName(langCode) {
+    const languages = {
+        'cpp': 'C++',
+        'python': 'Python',
+        'javascript': 'JavaScript',
+        'html': 'HTML/CSS',
+        'other': 'Другое'
+    };
+    return languages[langCode] || langCode;
+}
+
+function getFileExtension(langCode) {
+    const extensions = {
+        'cpp': 'cpp',
+        'python': 'py',
+        'javascript': 'js',
+        'html': 'html',
+        'other': 'txt'
+    };
+    return extensions[langCode] || 'txt';
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function showNotification(message, type = 'success') {
+    // Создаем уведомление
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 25px;
+        background: ${type === 'success' ? '#4CAF50' : '#f44336'};
+        color: white;
+        border-radius: 10px;
+        z-index: 1001;
+        animation: slideIn 0.3s ease;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Удаляем через 3 секунды
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
+}
+
+// Закрытие модального окна по клику вне его
+window.onclick = function(event) {
+    const modal = document.getElementById('codeModal');
+    if (event.target === modal) {
+        closeModal();
+    }
+};
+
+// Добавляем CSS для анимаций уведомлений
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
