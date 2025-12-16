@@ -1448,3 +1448,51 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+// ===== ПЕРЕКЛЮЧЕНИЕ ТЕМ =====
+document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.querySelector('.theme-icon');
+    
+    // Проверяем сохраненную тему
+    const savedTheme = localStorage.getItem('theme') || 'light-blue';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateButtonText(savedTheme);
+    
+    // Обработчик клика по кнопке
+    themeToggle.addEventListener('click', function() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light-blue' ? 'dark-red' : 'light-blue';
+        
+        // Применяем новую тему
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateButtonText(newTheme);
+        
+        // Анимация иконки
+        themeIcon.style.transform = newTheme === 'dark-red' ? 'rotate(180deg)' : 'rotate(0deg)';
+        
+        // Небольшая анимация для всей страницы
+        document.body.style.opacity = '0.8';
+        setTimeout(() => {
+            document.body.style.opacity = '1';
+        }, 150);
+    });
+    
+    function updateButtonText(theme) {
+        const button = document.getElementById('themeToggle');
+        const icon = theme === 'dark-red' ? '☀️' : '🌙';
+        const text = theme === 'dark-red' ? 'Дневная тема' : 'Ночная тема';
+        
+        button.innerHTML = `<span class="theme-icon">${icon}</span> ${text}`;
+    }
+    
+    // Добавляем плавный переход после загрузки
+    setTimeout(() => {
+        document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+    }, 100);
+});
+function updateThemeIndicator(theme) {
+    const indicator = document.getElementById('currentTheme');
+    indicator.textContent = theme === 'dark-red' ? 'Красно-черная' : 'Синяя';
+    indicator.style.color = theme === 'dark-red' ? '#ff4757' : '#2979ff';
+}
