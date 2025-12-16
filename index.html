@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <button id="themeToggle" class="theme-toggle">
+        <span class="theme-icon">🌙</span> Ночная тема
+    </button>
     <!-- Снежинки будут созданы через JS -->
     <div id="snowflakes"></div>
     
@@ -19,9 +22,6 @@
             <div class="header-content">
                 <h1>🚀 Мой путь в IT <span class="santa-hat">🎅</span></h1>
                 <p>Дневник прогресса в программировании • Новогоднее обновление 🎄</p>
-                <div class="theme-indicator">
-                    Текущая тема: <span id="currentTheme">Синяя</span>
-                </div>
             </div>
         </div>
     </header>
@@ -33,10 +33,6 @@
             <a href="#milestones"><i class="fas fa-trophy"></i> Достижения</a>
             <button id="themeToggle"><i class="fas fa-moon"></i> Тема</button>
             <button id="toggleSnow"><i class="fas fa-snowflake"></i> Снег</button>
-            <!-- Добавь в навигацию или в header -->
-            <button id="themeToggle" class="theme-toggle">
-                <span class="theme-icon">🌙</span> Ночная тема
-            </button>
         </div>
     </nav>
 

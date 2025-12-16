@@ -1,26 +1,60 @@
+/* ===== ОСНОВНЫЕ ПЕРЕМЕННЫЕ ЦВЕТОВ ===== */
 :root {
-    --primary-blue: #0d1b2a;
-    --dark-blue: #1b263b;
-    --medium-blue: #415a77;
-    --light-blue: #778da9;
-    --accent-blue: #3a86ff;
-    --black: #0a0a0a;
-    --dark-gray: #121212;
-    --medium-gray: #1e1e1e;
-    --light-gray: #2d2d2d;
-    --snow-white: #e2e2e2;
-    --gold-accent: #ffd700;
-    --success: #4cc9f0;
+    /* Основные цвета сайта (синяя тема) */
+    --primary: #2979ff;
+    --primary-dark: #1565c0;
+    --primary-light: #64b5f6;
+    --secondary: #64ffda;
+    --accent: #ff4081;
     
-    --primary: var(--accent-blue);
-    --secondary: var(--medium-blue);
-    --light: var(--dark-gray);
-    --dark: var(--snow-white);
-    --gray: var(--light-blue);
-    --border-radius: 15px;
-    --transition: all 0.3s ease;
+    /* Фоны */
+    --bg-primary: #1a1a2e;
+    --bg-secondary: #16213e;
+    --bg-card: rgba(255, 255, 255, 0.05);
+    --bg-code: #0d1117;
+    
+    /* Текст */
+    --text-primary: #e6e6e6;
+    --text-secondary: #8892b0;
+    --text-light: #ffffff;
+    
+    /* Границы и тени */
+    --border: rgba(255, 255, 255, 0.1);
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    
+    /* Статус */
+    --success: #4CAF50;
+    --warning: #FFC107;
+    --error: #f44336;
+    
+    /* Градиенты */
+    --gradient-primary: linear-gradient(135deg, #2979ff, #64ffda);
+    --gradient-card: linear-gradient(135deg, rgba(41, 121, 255, 0.1), rgba(100, 255, 218, 0.1));
 }
 
+/* ===== КРАСНО-ЧЕРНАЯ ТЕМА ===== */
+[data-theme="dark-red"] {
+    --primary: #ff4757;
+    --primary-dark: #ff3838;
+    --primary-light: #ff7675;
+    --secondary: #ff6b81;
+    --accent: #ffa502;
+    
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #1a0a0a;
+    --bg-card: rgba(255, 71, 87, 0.05);
+    --bg-code: #1a0a0a;
+    
+    --text-primary: #f8f8f8;
+    --text-secondary: #b2b2b2;
+    --text-light: #ffffff;
+    
+    --border: rgba(255, 71, 87, 0.2);
+    --shadow: 0 10px 30px rgba(255, 0, 0, 0.1);
+    
+    --gradient-primary: linear-gradient(135deg, #ff3838, #ff7675);
+    --gradient-card: linear-gradient(135deg, rgba(255, 56, 56, 0.1), rgba(255, 118, 117, 0.1));
+}
 [data-theme="dark"] {
     --light: #0a0a0a;
     --dark: #e2e2e2;
@@ -1487,24 +1521,4 @@ button:not(.theme-toggle):not(.filter-btn) {
 
 button:not(.theme-toggle):not(.filter-btn):hover {
     background: var(--primary-dark);
-}
-* {
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-}
-
-/* Отключаем анимацию для некоторых элементов */
-button, a, .theme-toggle {
-    transition: all 0.3s ease !important;
-}
-@media (max-width: 768px) {
-    .theme-toggle {
-        top: 10px;
-        right: 10px;
-        padding: 8px 15px;
-        font-size: 0.9em;
-    }
-    
-    .theme-icon {
-        font-size: 1em;
-    }
 }

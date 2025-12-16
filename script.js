@@ -1189,6 +1189,42 @@ let codeSnippets = [
 document.addEventListener('DOMContentLoaded', function() {
     renderGallery();
     setupFilterButtons();
+    document.addEventListener('DOMContentLoaded', function() {
+    // ====== ТВОЙ СУЩЕСТВУЮЩИЙ КОД ======
+    // ...вся твоя галерея кода (renderGallery, setupFilterButtons и т.д.)...
+    
+    // ====== КОД ПЕРЕКЛЮЧЕНИЯ ТЕМЫ (ДОБАВЬ ЗДЕСЬ!) ======
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.querySelector('.theme-icon');
+    
+    // Проверяем сохранённую тему
+    const savedTheme = localStorage.getItem('siteTheme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateButtonText(savedTheme);
+    }
+    
+    // Обработчик клика
+    themeToggle.addEventListener('click', function() {
+        let currentTheme = document.documentElement.getAttribute('data-theme');
+        let newTheme = currentTheme === 'dark-red' ? 'light-blue' : 'dark-red';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('siteTheme', newTheme);
+        updateButtonText(newTheme);
+        
+        themeIcon.style.transform = newTheme === 'dark-red' ? 'rotate(180deg)' : 'rotate(0deg)';
+    });
+    
+    function updateButtonText(theme) {
+        const button = document.getElementById('themeToggle');
+        const icon = theme === 'dark-red' ? '☀️' : '🌙';
+        const text = theme === 'dark-red' ? 'Дневная тема' : 'Ночная тема';
+        button.innerHTML = `<span class="theme-icon">${icon}</span> ${text}`;
+    }
+    // ====== КОНЕЦ КОДА ТЕМЫ ======
+    
+}); // ← Эта закрывающая скобка уже есть в твоём коде!
 });
 
 // Рендеринг галереи
@@ -1491,8 +1527,3 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
     }, 100);
 });
-function updateThemeIndicator(theme) {
-    const indicator = document.getElementById('currentTheme');
-    indicator.textContent = theme === 'dark-red' ? 'Красно-черная' : 'Синяя';
-    indicator.style.color = theme === 'dark-red' ? '#ff4757' : '#2979ff';
-}
