@@ -1522,3 +1522,60 @@ button:not(.theme-toggle):not(.filter-btn) {
 button:not(.theme-toggle):not(.filter-btn):hover {
     background: var(--primary-dark);
 }
+.particles-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* Частицы */
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.3;
+    animation: float 20s infinite linear;
+}
+
+/* Разные размеры частиц */
+.particle:nth-child(odd) { width: 4px; height: 4px; }
+.particle:nth-child(even) { width: 6px; height: 6px; }
+.particle:nth-child(3n) { width: 8px; height: 8px; opacity: 0.2; }
+.particle:nth-child(5n) { width: 10px; height: 10px; opacity: 0.15; }
+
+/* Цвета частиц в зависимости от темы */
+:root .particle { color: var(--primary-light); }
+[data-theme="dark-red"] .particle { color: var(--primary-light); }
+
+/* Анимация плавания */
+@keyframes float {
+    0% {
+        transform: translateY(100vh) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.3;
+    }
+    90% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(-100px) translateX(calc(100vw * var(--random-x))) rotate(360deg);
+        opacity: 0;
+    }
+}
+.particles-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
