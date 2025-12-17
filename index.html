@@ -1,252 +1,251 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="dark-red" data-holiday="off">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой путь в программировании 🎄</title>
+    <title>Code Progress Blog | C++ & Python</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <button id="themeToggle" class="theme-toggle">
-        <span class="theme-icon">🌙</span> Ночная тема
-    </button>
-    <!-- Снежинки будут созданы через JS -->
-    <div id="snowflakes"></div>
-    
-    <!-- Новогодние гирлянды -->
-    <div class="lights"></div>
-    
-    <header class="new-year-header">
-        <div class="container">
-            <div class="header-content">
-                <h1>🚀 Мой путь в IT <span class="santa-hat">🎅</span></h1>
-                <p>Дневник прогресса в программировании • Новогоднее обновление 🎄</p>
-            </div>
+    <!-- Holiday Effects -->
+    <div class="holiday-effects" id="holidayEffects"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-laptop-code floating"></i>
+            <h1>Code Progress Blog</h1>
+        </div>
+        <div class="nav-controls">
+            <button class="holiday-btn" id="holidayToggle">
+                <i class="fas fa-tree"></i>
+                <span>🎄 Новогодняя тема</span>
+            </button>
+            <button class="theme-btn" id="themeToggle">
+                <i class="fas fa-palette"></i>
+                <span>Тема</span>
+            </button>
+            <!-- В header после кнопки темы добавь: -->
+            <button class="theme-btn" id="logoutBtn" style="display: none;">
+                <i class="fas fa-sign-out-alt"></i> Выйти
+            </button>
         </div>
     </header>
 
-    <nav class="christmas-nav">
-        <div class="container">
-            <a href="#about"><i class="fas fa-home"></i> Главная</a>
-            <a href="#posts"><i class="fas fa-book"></i> Записи</a>
-            <a href="#milestones"><i class="fas fa-trophy"></i> Достижения</a>
-            <button id="themeToggle"><i class="fas fa-moon"></i> Тема</button>
-            <button id="toggleSnow"><i class="fas fa-snowflake"></i> Снег</button>
-        </div>
-    </nav>
-
-    <main class="container">
-        <section id="about" class="section-with-padding">
-            <h2><i class="fas fa-gift"></i> Обо мне</h2>
-            <div class="card christmas-card">
-                <div class="card-header">
-                    <span class="card-tag">🎄 Новогодние достижения</span>
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Progress Stats -->
+        <div class="stats-card">
+            <div class="stats-header">
+                <div>
+                    <h2><i class="fas fa-chart-line"></i> Мой прогресс</h2>
+                    <p class="start-date">Начало пути: 01.12.2025</p>
                 </div>
-                <p>Привет! Я изучаю программирование уже <span id="daysCounter" class="highlight">10</span> дней.</p>
-                <p><strong>Текущая цель:</strong> <span id="currentGoal">Создать новогодний проект на C#</span></p>
-                <div class="skills" id="skillsContainer">
-                    <h3><i class="fas fa-star"></i> Мои навыки:</h3>
-                    <!-- Навыки будут загружены через JS -->
-                </div>
-                <button id="editSkillsBtn" class="christmas-button" style="margin-top: 20px;">
-                    <i class="fas fa-edit"></i> Редактировать навыки
-                </button>
+                <div class="days-counter" id="daysCounter">0</div>
             </div>
-        </section>
-
-        <section id="addPost" class="section-with-padding">
-            <h2><i class="fas fa-plus-circle"></i> Новая запись о прогрессе</h2>
-            <div class="card christmas-card">
-                <div class="card-header">
-                    <span class="card-tag">✏️ Новая запись</span>
+            
+            <div class="progress-grid">
+                <!-- C++ Progress -->
+                <div class="language-progress">
+                    <div class="language-header">
+                        <h3><i class="fab fa-cuttlefish"></i> C++</h3>
+                        <span class="progress-percent" id="cppPercent">0%</span>
+                    </div>
+                    <p class="text-secondary">Основы, ООП, STL, Алгоритмы</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="cppProgress" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-controls">
+                        <input type="number" class="progress-input" id="cppInput" min="0" max="100" placeholder="Новый % (0-100)">
+                        <button class="progress-btn" onclick="updateProgress('cpp')">
+                            <i class="fas fa-sync-alt"></i> Обновить
+                        </button>
+                    </div>
                 </div>
-                <form id="postForm">
+
+                <!-- Python Progress -->
+                <div class="language-progress">
+                    <div class="language-header">
+                        <h3><i class="fab fa-python"></i> Python</h3>
+                        <span class="progress-percent" id="pythonPercent">0%</span>
+                    </div>
+                    <p class="text-secondary">Основы, Функции, Библиотеки</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="pythonProgress" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-controls">
+                        <input type="number" class="progress-input" id="pythonInput" min="0" max="100" placeholder="Новый % (0-100)">
+                        <button class="progress-btn" onclick="updateProgress('python')">
+                            <i class="fas fa-sync-alt"></i> Обновить
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Achievements Board -->
+        <div class="achievements-card">
+            <h2><i class="fas fa-trophy"></i> Достижения</h2>
+            <div class="achievements-grid">
+                <div class="achievement" id="ach1">
+                    <i class="fas fa-medal"></i>
+                    <div>
+                        <h4>Первая программа</h4>
+                        <p>Написал "Hello, World!" на C++</p>
+                    </div>
+                </div>
+                <div class="achievement locked" id="ach2">
+                    <i class="fas fa-lock"></i>
+                    <div>
+                        <h4>50 дней кодинга</h4>
+                        <p>Программирую 50 дней подряд</p>
+                    </div>
+                </div>
+                <div class="achievement" id="ach3">
+                    <i class="fas fa-code"></i>
+                    <div>
+                        <h4>10 проектов</h4>
+                        <p>Создал 10 учебных проектов</p>
+                    </div>
+                </div>
+                <div class="achievement locked" id="ach4">
+                    <i class="fas fa-lock"></i>
+                    <div>
+                        <h4>C++ на 70%</h4>
+                        <p>Освоил 70% языка C++</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Code Gallery -->
+        <div class="gallery-card">
+            <div class="gallery-header">
+                <h2><i class="fas fa-code"></i> Галерея кода</h2>
+                <span class="snippet-count" id="snippetCount">0 сниппетов</span>
+            </div>
+            
+            <div class="gallery-controls">
+                <button class="filter-btn active" data-filter="all">Все</button>
+                <button class="filter-btn" data-filter="cpp">C++</button>
+                <button class="filter-btn" data-filter="python">Python</button>
+                <button class="filter-btn" data-filter="web">Web</button>
+            </div>
+
+            <div class="code-gallery" id="codeGallery">
+                <!-- Сниппеты будут добавляться через JS -->
+            </div>
+
+            <!-- Add Code Form -->
+            <div class="add-code-form">
+                <h3><i class="fas fa-plus-circle"></i> Добавить новый код</h3>
+                <div class="form-grid">
                     <div class="form-group">
-                        <input type="text" id="postTitle" placeholder="Что нового я узнал сегодня?" required>
+                        <label>Название</label>
+                        <input type="text" class="form-input" id="codeTitle" placeholder="Мой алгоритм сортировки">
                     </div>
                     <div class="form-group">
-                        <textarea id="postContent" placeholder="Опиши свои успехи и планы на следующий год..." rows="6" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <select id="postCategory">
-                            <option value="general">🎁 Общие мысли</option>
-                            <option value="csharp">🔷 C# / .NET</option>
-                            <option value="javascript">🟨 JavaScript</option>
-                            <option value="python">🐍 Python</option>
-                            <option value="web">🌐 Веб-разработка</option>
-                            <option value="algorithms">🧮 Алгоритмы</option>
-                            <option value="projects">🎅 Новогодние проекты</option>
+                        <label>Язык</label>
+                        <select class="form-select" id="codeLanguage">
+                            <option value="cpp">C++</option>
+                            <option value="python">Python</option>
+                            <option value="javascript">JavaScript</option>
+                            <option value="html">HTML/CSS</option>
                         </select>
                     </div>
-                    <button type="submit" class="christmas-button">
-                        <i class="fas fa-rocket"></i> Зафиксировать прогресс
-                    </button>
-                </form>
-            </div>
-        </section>
-
-        <section id="posts" class="section-with-padding">
-            <h2><i class="fas fa-tree"></i> Мои записи</h2>
-            <div class="posts-grid" id="postsContainer">
-                <!-- Посты будут добавляться через JS -->
-            </div>
-        </section>
-
-        <section id="milestones" class="section-with-padding">
-            <h2><i class="fas fa-trophy"></i> Достижения 2025</h2>
-            <div class="card christmas-card">
-                <div class="card-header">
-                    <span class="card-tag">🏆 Годовой отчет</span>
-                </div>
-                <div class="milestones-grid">
-                    <div class="milestone">
-                        <div class="milestone-icon">
-                            <i class="fas fa-code fa-2x"></i>
-                        </div>
-                        <h3>10+ часов кода</h3>
-                        <p>Более 10 часов практики программирования</p>
+                    <div class="form-group full-width">
+                        <label>Код</label>
+                        <textarea class="form-textarea" id="codeContent" placeholder="Вставьте ваш код здесь..."></textarea>
                     </div>
-                    <div class="milestone">
-                        <div class="milestone-icon">
-                            <i class="fas fa-project-diagram fa-2x"></i>
-                        </div>
-                        <h3>1+ проектов</h3>
-                        <p>Завершённые учебные и пет-проекты</p>
+                    <div class="form-group">
+                        <label>Теги (через запятую)</label>
+                        <input type="text" class="form-input" id="codeTags" placeholder="алгоритмы, сортировка, учебный">
                     </div>
-                    <div class="milestone">
-                        <div class="milestone-icon">
-                            <i class="fas fa-book fa-2x"></i>
-                        </div>
-                        <h3>1+ курсов</h3>
-                        <p>Пройденные онлайн-курсы и туториалы</p>
+                    <div class="form-group">
+                        <label>Описание</label>
+                        <input type="text" class="form-input" id="codeDescription" placeholder="Что делает этот код?">
                     </div>
                 </div>
-            </div>
-        </section>
-    </main>
-    <footer class="christmas-footer">
-    <div class="container">
-        <p>🎄 © 2025 Мой учебный блог | В пути: <span id="learningTime">10 дней</span> 🎄</p>
-        
-        <!-- Telegram контакт -->
-        <div class="contact-telegram">
-            <div class="telegram-card">
-                <div class="telegram-icon">
-                    <i class="fab fa-telegram-plane"></i>
-                </div>
-                <div class="telegram-content">
-                    <h3>Свяжитесь со мной</h3>
-                    <p>Есть вопросы или предложения? Напишите мне в Telegram!</p>
-                    <div class="telegram-username">
-                        <span class="telegram-label">Telegram:</span>
-                        <a href="https://t.me/ваш_ник" target="_blank" class="telegram-link">
-                            <i class="fab fa-telegram"></i>
-                            @поканету
-                        </a>
-                    </div>
-                </div>
-                <div class="telegram-arrow">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-            </div>
-        </div>
-        
-        <div class="social">
-            <a href="#"><i class="fab fa-github"></i> GitHub</a>
-            <a href="#"><i class="fab fa-codepen"></i> CodePen</a>
-            <a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a>
-        </div>
-    </div>
-</footer>
-    <!-- Модальное окно для редактирования навыков -->
-    <div id="skillsModal" class="modal">
-        <div class="modal-overlay" id="modalOverlay"></div>
-        <div class="modal-content christmas-modal">
-            <h3><i class="fas fa-cogs"></i> Редактировать навыки</h3>
-            <div id="skillsForm"></div>
-            <div class="modal-buttons">
-                <button id="saveSkillsBtn" class="christmas-button"><i class="fas fa-save"></i> Сохранить</button>
-                <button id="closeModalBtn" class="secondary-btn"><i class="fas fa-times"></i> Отмена</button>
+                <button class="form-submit" onclick="addCodeSnippet()">
+                    <i class="fas fa-upload"></i> Добавить в галерею
+                </button>
             </div>
         </div>
     </div>
 
     <script src="script.js"></script>
-    <!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Галерея кода</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <header>
-        <h1><i class="fas fa-code"></i> Моя галерея кода</h1>
-        <p>Коллекция моих проектов и сниппетов</p>
-    </header>
-
-    <main>
-        <div class="controls">
-            <button class="filter-btn active" data-filter="all">Все проекты</button>
-            <button class="filter-btn" data-filter="cpp">C++</button>
-            <button class="filter-btn" data-filter="python">Python</button>
-            <button class="filter-btn" data-filter="web">Web</button>
-            <button class="filter-btn" data-filter="game">Игры</button>
+    <!-- Добавь это перед </body> -->
+<div id="loginModal" style="
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.95);
+    z-index: 3000;
+    justify-content: center;
+    align-items: center;
+">
+    <div style="
+        background: var(--bg-card);
+        border: 2px solid var(--accent-red);
+        border-radius: 15px;
+        padding: 40px;
+        width: 90%;
+        max-width: 400px;
+    ">
+        <h2 style="margin-bottom: 30px; text-align: center;">
+            <i class="fas fa-lock"></i> Вход в блог
+        </h2>
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px;">Логин</label>
+            <input type="text" id="loginUsername" style="
+                width: 100%;
+                padding: 12px;
+                background: rgba(255,255,255,0.1);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                color: white;
+                font-size: 1rem;
+            " placeholder="Введите логин">
         </div>
-
-        <div class="gallery" id="codeGallery">
-            <!-- Карточки будут добавляться через JavaScript -->
+        
+        <div style="margin-bottom: 30px;">
+            <label style="display: block; margin-bottom: 8px;">Пароль</label>
+            <input type="password" id="loginPassword" style="
+                width: 100%;
+                padding: 12px;
+                background: rgba(255,255,255,0.1);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                color: white;
+                font-size: 1rem;
+            " placeholder="Введите пароль">
         </div>
-
-        <div class="upload-section">
-            <h2><i class="fas fa-upload"></i> Добавить новый код</h2>
-            <div class="upload-form">
-                <input type="text" id="codeTitle" placeholder="Название проекта" required>
-                <textarea id="codeDescription" placeholder="Описание кода..." rows="3"></textarea>
-                <textarea id="codeContent" placeholder="Вставьте ваш код здесь..." rows="6"></textarea>
-                <select id="codeLanguage">
-                    <option value="cpp">C++</option>
-                    <option value="python">Python</option>
-                    <option value="javascript">JavaScript</option>
-                    <option value="html">HTML/CSS</option>
-                    <option value="other">Другое</option>
-                </select>
-                <input type="text" id="codeTags" placeholder="Теги (через запятую)">
-                <button onclick="addCodeCard()"><i class="fas fa-plus"></i> Добавить в галерею</button>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <p>© 2025 Галерея кода. Все права защищены.</p>
-    </footer>
-
-    <!-- Модальное окно для просмотра кода -->
-    <div class="modal" id="codeModal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h2 id="modalTitle"></h2>
-            <div class="code-info">
-                <span class="language" id="modalLang"></span>
-                <span class="date" id="modalDate"></span>
-            </div>
-            <pre><code id="modalCode"></code></pre>
-            <p id="modalDesc"></p>
-            <div class="modal-tags" id="modalTags"></div>
-            <div class="modal-actions">
-                <button onclick="copyCode()"><i class="far fa-copy"></i> Копировать код</button>
-                <button onclick="downloadCode()"><i class="fas fa-download"></i> Скачать</button>
-            </div>
-        </div>
+        
+        <button id="loginSubmit" style="
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        ">
+            <i class="fas fa-sign-in-alt"></i> Войти
+        </button>
+        
+        <p style="text-align: center; margin-top: 20px; color: var(--text-secondary); font-size: 0.9rem;">
+            Логин: admin | Пароль: 12345
+        </p>
     </div>
-
-    <script src="script.js"></script>
-    <!-- Подсветка синтаксиса -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-    <script>hljs.highlightAll();</script>
-    <div class="particles-background"></div>
+</div>
 </body>
 </html>
