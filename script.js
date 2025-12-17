@@ -7,28 +7,30 @@ const ADMIN_CREDENTIALS = {
 let currentUser = null;
 
 function initAuthSystem() {
-    // Проверяем, авторизован ли пользователь
-    const savedUser = localStorage.getItem('blogUser');
-    if (savedUser) {
-        currentUser = JSON.parse(savedUser);
-        hideLoginModal();
-        updateUIForUser();
-    } else {
-        showLoginModal();
-    }
+    // Всегда загружаем как гость
+    currentUser = { username: 'Гость', role: 'guest' };
+    updateUIForUser();
+    hideLoginModal();
     
-    // Обработчик входа
-    document.getElementById('loginSubmit').addEventListener('click', handleLogin);
-    
-    // Обработчик выхода
-    document.getElementById('logoutBtn').addEventListener('click', handleLogout);
-    
-    // Закрытие по Escape
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !currentUser) {
-            showLoginModal();
-        }
-    });
+    // Кнопка входа для администратора
+    const loginBtn = document.createElement('button');
+    loginBtn.id = 'adminLoginBtn';
+    loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Войти как админ';
+    loginBtn.style.cssText = `
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        padding: 10px 20px;
+        background: rgba(255, 71, 87, 0.1);
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+        border-radius: 25px;
+        cursor: pointer;
+        z-index: 1000;
+        font-size: 0.9rem;
+    `;
+    loginBtn.onclick = showLoginModal;
+    document.body.appendChild(loginBtn);
 }
 
 function handleLogin() {
@@ -658,4 +660,31 @@ function addAnimationStyles() {
         }
     `;
     document.head.appendChild(style);
+}
+function initAuthSystem() {
+    // Проверяем, авторизован ли пользователь
+    const savedUser = localStorage.getItem('blogUser');
+    if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        hideLoginModal();
+        updateUIForUser();
+    } else {
+        showLoginModal();
+    }
+    
+    // Обработчик входа
+    document.getElementById('loginSubmit').addEventListener('click', handleLogin);
+    
+    // Обработчик гостевого доступа (ДОБАВЬ ЭТО!)
+    const guestBtn = document.getElementById('guestAccessBtn');
+    if (guestBtn) {
+        guestBtn.addEventListener('click', function() {
+            currentUser = { username: 'Гость', role: 'guest' };
+            hideLoginModal();
+            updateUIForUser();
+            showNotification('👋 Добро пожаловать как гость!', 'info');
+        });
+    }
+    
+    // ... остальной код
 }

@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark-red">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Измеритель | Code Progress Blog</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Дополнительные стили для измерителя */
+        .measure-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+        
+        .measure-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+        
+        .measure-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .measure-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+        }
+        
+        .choice-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .choice-btn {
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .choice-btn:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            background: rgba(var(--primary-rgb, 255, 71, 87), 0.1);
+        }
+        
+        .choice-btn.active {
+            border-color: var(--primary);
+            background: rgba(var(--primary-rgb, 255, 71, 87), 0.15);
+            box-shadow: 0 5px 20px rgba(var(--primary-rgb, 255, 71, 87), 0.2);
+        }
+        
+        .choice-icon {
+            font-size: 3rem;
+            color: var(--primary);
+        }
+        
+        .choice-text {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        .measure-form {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            display: none;
+        }
+        
+        .measure-form.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .form-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+        
+        .measure-input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .measure-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(var(--primary-rgb, 255, 71, 87), 0.2);
+        }
+        
+        .measure-btn {
+            padding: 15px 40px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .measure-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(var(--primary-rgb, 255, 71, 87), 0.3);
+        }
+        
+        .measure-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .result-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .result-container.active {
+            display: block;
+        }
+        
+        .result-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .result-text {
+            font-size: 1.4rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .result-emoji {
+            font-size: 4rem;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+        }
+        
+        .history-list {
+            margin-top: 40px;
+            text-align: left;
+        }
+        
+        .history-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+        }
+        
+        .history-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .history-type {
+            color: var(--primary-light);
+            font-weight: bold;
+        }
+        
+        .history-value {
+            font-size: 1.2rem;
+        }
+        
+        .clear-history {
+            padding: 8px 20px;
+            background: rgba(255, 71, 87, 0.2);
+            border: 1px solid var(--primary);
+            color: var(--primary-light);
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+        
+        .clear-history:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Анимации */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 0.5s ease;
+        }
+        
+        /* Мобильная адаптация */
+        @media (max-width: 768px) {
+            .measure-container {
+                margin: 20px auto;
+                padding: 10px;
+            }
+            
+            .measure-card {
+                padding: 25px;
+            }
+            
+            .measure-title {
+                font-size: 2rem;
+            }
+            
+            .choice-buttons {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .choice-btn {
+                padding: 20px;
+            }
+            
+            .choice-icon {
+                font-size: 2.5rem;
+            }
+            
+            .result-emoji {
+                font-size: 3rem;
+            }
+        }
+        
+        /* Навигация назад */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary-light);
+            text-decoration: none;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-5px);
+        }
+        /* Стили для пошагового вывода */
+.typing-effect {
+    border-right: 3px solid var(--primary);
+    animation: blink 1s infinite;
+    padding-right: 3px;
+}
+
+@keyframes blink {
+    0%, 100% { border-color: transparent; }
+    50% { border-color: var(--primary); }
+}
+
+.message-sequence {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.message-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 4px solid var(--primary);
+    padding: 15px;
+    border-radius: 10px;
+    animation: slideIn 0.5s ease;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.message-emoji {
+    font-size: 2rem;
+    min-width: 60px;
+    text-align: center;
+}
+
+.message-text {
+    font-size: 1.2rem;
+    line-height: 1.4;
+}
+
+.message-item:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.03);
+    border-left-color: var(--primary-light);
+}
+
+/* Индикатор измерения */
+.measuring-indicator {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(var(--primary-rgb, 255, 71, 87), 0.1);
+    border-radius: 10px;
+    border: 2px solid var(--primary);
+}
+
+.measuring-indicator.active {
+    display: flex;
+    animation: pulse 1.5s infinite;
+}
+
+.measuring-dots {
+    display: flex;
+    gap: 5px;
+}
+
+.measuring-dots span {
+    width: 10px;
+    height: 10px;
+    background: var(--primary);
+    border-radius: 50%;
+    animation: bounce 1.4s infinite;
+}
+
+.measuring-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.measuring-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+    0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.5;
+    }
+    30% {
+        transform: translateY(-10px);
+        opacity: 1;
+    }
+}
+
+/* Блокировка интерфейса при измерении */
+.measuring .measure-btn,
+.measuring .choice-btn,
+.measuring .clear-history {
+    pointer-events: none;
+    opacity: 0.5;
+}
+    </style>
+</head>
+<body>
+    <!-- Эффекты темы -->
+    <div class="holiday-effects" id="holidayEffects"></div>
+    
+    <!-- Контейнер измерителя -->
+    <div class="measure-container">
+        <!-- Кнопка назад -->
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            Назад в блог
+        </a>
+        
+        <!-- Основная карточка -->
+        <div class="measure-card">
+            <h1 class="measure-title">
+                <i class="fas fa-ruler-combined"></i>
+                Измеритель
+            </h1>
+            <p class="measure-subtitle">
+                Измеряй размеры и вес с юмором!<br>
+                Только честные результаты 🤫
+            </p>
+            
+            <!-- Выбор измерения -->
+            <div class="choice-buttons">
+                <div class="choice-btn" data-type="size">
+                    <div class="choice-icon">📏</div>
+                    <div class="choice-text">Размер</div>
+                    <div class="choice-desc">Измерить в мм</div>
+                </div>
+                
+                <div class="choice-btn" data-type="weight">
+                    <div class="choice-icon">⚖️</div>
+                    <div class="choice-text">Вес</div>
+                    <div class="choice-desc">Измерить в кг</div>
+                </div>
+            </div>
+            
+            <!-- Форма для размера -->
+            <div class="measure-form" id="sizeForm">
+                <h2 class="form-title">
+                    <i class="fas fa-ruler-vertical"></i>
+                    Измерение размера
+                </h2>
+                <div class="input-group">
+                    <label class="input-label">Введите размер (в миллиметрах):</label>
+                    <input type="number" class="measure-input" id="sizeInput" 
+                           min="1" max="300" placeholder="100" step="1">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Введите рост (в сантиметрах):</label>
+                    <input type="number" class="measure-input" id="sizeHeightInput" 
+                           min="50" max="250" placeholder="180" step="1">
+                </div>
+                <button class="measure-btn" id="sizeBtn">
+                    <i class="fas fa-calculator"></i>
+                    Измерить
+                </button>
+            </div>
+            
+            <!-- Форма для веса -->
+            <div class="measure-form" id="weightForm">
+                <h2 class="form-title">
+                    <i class="fas fa-weight-hanging"></i>
+                    Измерение веса
+                </h2>
+                <div class="input-group">
+                    <label class="input-label">Введите вес (в килограммах):</label>
+                    <input type="number" class="measure-input" id="weightInput" 
+                           min="20" max="200" placeholder="75" step="1">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Введите рост (в сантиметрах):</label>
+                    <input type="number" class="measure-input" id="weightHeightInput" 
+                           min="50" max="250" placeholder="180" step="1">
+                </div>
+                <button class="measure-btn" id="weightBtn">
+                    <i class="fas fa-calculator"></i>
+                    Измерить
+                </button>
+            </div>
+            
+            <!-- Результат -->
+<div class="result-container" id="resultContainer">
+    <h2 class="result-title">
+        <i class="fas fa-chart-bar"></i>
+        Результат измерения
+    </h2>
+    
+    <!-- Индикатор измерения -->
+    <div class="measuring-indicator" id="measuringIndicator">
+        <div class="measuring-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <span>Измеряем...</span>
+    </div>
+    
+    <!-- Область для последовательных сообщений -->
+    <div class="message-sequence" id="messageSequence">
+        <!-- Сообщения будут добавляться здесь -->
+    </div>
+    
+    <!-- Финальный результат -->
+    <div class="final-result" id="finalResult" style="display: none;">
+        <div class="result-emoji" id="resultEmoji">🤔</div>
+        <div class="result-text" id="resultText"></div>
+    </div>
+    
+    <!-- История измерений -->
+    <div class="history-list">
+        <h3 class="history-title">
+            <i class="fas fa-history"></i>
+            История измерений
+        </h3>
+        <div id="historyList">
+            <!-- История будет добавляться здесь -->
+        </div>
+        <button class="clear-history" id="clearHistoryBtn">
+            <i class="fas fa-trash"></i>
+            Очистить историю
+        </button>
+    </div>
+</div>
+        </div>
+    </div>
+    
+    <!-- Подключение скриптов -->
+    <script src="script.js"></script>
+    <script>
+        // ====== ОСНОВНОЙ СКРИПТ ИЗМЕРИТЕЛЯ ======
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Измеритель загружен!');
+    
+    // Элементы DOM
+    const sizeForm = document.getElementById('sizeForm');
+    const weightForm = document.getElementById('weightForm');
+    const resultContainer = document.getElementById('resultContainer');
+    const historyList = document.getElementById('historyList');
+    const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+    
+    // История измерений
+    let measurementsHistory = JSON.parse(localStorage.getItem('measurementsHistory')) || [];
+    let currentStep = 0;
+    let currentMessages = [];
+    let isMeasuring = false;
+    
+    // Инициализация истории
+    renderHistory();
+    
+    // Выбор типа измерения
+    document.querySelectorAll('.choice-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            if (isMeasuring) return;
+            
+            // Сброс активных состояний
+            document.querySelectorAll('.choice-btn').forEach(b => {
+                b.classList.remove('active');
+            });
+            
+            // Активация выбранной кнопки
+            this.classList.add('active');
+            
+            const type = this.dataset.type;
+            
+            // Показать нужную форму
+            if (type === 'size') {
+                sizeForm.classList.add('active');
+                weightForm.classList.remove('active');
+                resultContainer.classList.remove('active');
+                clearResult();
+            } else if (type === 'weight') {
+                weightForm.classList.add('active');
+                sizeForm.classList.remove('active');
+                resultContainer.classList.remove('active');
+                clearResult();
+            }
+        });
+    });
+    
+    // Измерение размера
+    document.getElementById('sizeBtn').addEventListener('click', function() {
+        if (isMeasuring) return;
+        
+        const size = parseInt(document.getElementById('sizeInput').value);
+        const height = parseInt(document.getElementById('sizeHeightInput').value);
+        
+        if (!size || !height || size < 1 || height < 50) {
+            showMessage('❌ Введите корректные значения!', '😕', true);
+            return;
+        }
+        
+        startMeasurement('size', size, height);
+    });
+    
+    // Измерение веса
+    document.getElementById('weightBtn').addEventListener('click', function() {
+        if (isMeasuring) return;
+        
+        const weight = parseInt(document.getElementById('weightInput').value);
+        const height = parseInt(document.getElementById('weightHeightInput').value);
+        
+        if (!weight || !height || weight < 20 || height < 50) {
+            showMessage('❌ Введите корректные значения!', '😕', true);
+            return;
+        }
+        
+        startMeasurement('weight', weight, height);
+    });
+    
+    // Очистка истории
+    clearHistoryBtn.addEventListener('click', function() {
+        if (isMeasuring) return;
+        
+        if (measurementsHistory.length > 0) {
+            if (confirm('Очистить всю историю измерений?')) {
+                measurementsHistory = [];
+                localStorage.removeItem('measurementsHistory');
+                renderHistory();
+                showMessage('🗑️ История очищена!', '✅', true);
+            }
+        } else {
+            showMessage('📭 История и так пуста!', '🤷', true);
+        }
+    });
+    
+    // ====== ОСНОВНЫЕ ФУНКЦИИ ======
+    
+    function startMeasurement(type, value1, value2) {
+        isMeasuring = true;
+        currentStep = 0;
+        currentMessages = [];
+        resultContainer.classList.add('active');
+        clearResult();
+        
+        // Блокируем кнопки на время измерения
+        document.querySelectorAll('.measure-btn, .choice-btn').forEach(btn => {
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+        });
+        
+        // Генерируем сообщения в зависимости от типа
+        if (type === 'size') {
+            generateSizeMessages(value1, value2);
+        } else {
+            generateWeightMessages(value1, value2);
+        }
+        
+        // Начинаем показ сообщений
+        showNextMessage();
+    }
+    
+    function generateSizeMessages(size, height) {
+        // Первое сообщение - реакция на размер
+        if (size > 100 && size < 150) {
+            currentMessages.push({ text: '🎉 Гигант!', emoji: '💪', delay: 800 });
+            
+            // Второе сообщение - реакция на рост
+            setTimeout(() => {
+                if (height >= 180 && height <= 190) {
+                    currentMessages.push({ text: 'Не ну ты махина!', emoji: '🏆', delay: 800 });
+                } else if (height < 180) {
+                    currentMessages.push({ text: 'Ну хоть ТАМ повезло!', emoji: '😉', delay: 800 });
+                } else {
+                    currentMessages.push({ text: 'Ну тут уже обманом пахнуло!', emoji: '🤨', delay: 800 });
+                }
+            }, 100);
+        }
+        else if (size === 100) {
+            currentMessages.push({ text: 'WHY 100????!!!!!????!!!!', emoji: '🤔', delay: 1200 });
+        }
+        else if (size >= 150) {
+            currentMessages.push({ text: '😂 Ха-ха-ха! Не смеши меня!', emoji: '😂', delay: 800 });
+            
+            // Второе сообщение
+            setTimeout(() => {
+                if (height > 160) {
+                    currentMessages.push({ text: 'Не, ну точно враньё!!!', emoji: '🤥', delay: 800 });
+                } else if (height >= 130 && height <= 160) {
+                    currentMessages.push({ text: 'Не, ну похоже на правду!', emoji: '👍', delay: 800 });
+                } else {
+                    currentMessages.push({ text: 'Оу...', emoji: '😯', delay: 800 });
+                }
+            }, 100);
+        }
+        else {
+            currentMessages.push({ text: '🤫 Не осуждаем!', emoji: '🤐', delay: 800 });
+            
+            // Второе сообщение
+            setTimeout(() => {
+                if (height >= 180) {
+                    currentMessages.push({ text: 'Ну вот, тоже неплохо!!!', emoji: '😏', delay: 800 });
+                } else {
+                    currentMessages.push({ text: 'Ну капец, бедолага!', emoji: '😅', delay: 800 });
+                }
+            }, 100);
+        }
+        
+        // Сохраняем результат
+        const finalResult = currentMessages.map(m => m.text).join(' ');
+        saveMeasurement('size', size, height, finalResult);
+    }
+    
+    function generateWeightMessages(weight, height) {
+        // Первое сообщение - реакция на вес
+        if (weight >= 90) {
+            currentMessages.push({ text: '😲 Ну нихуя!', emoji: '😲', delay: 800 });
+            
+            // Второе сообщение
+            setTimeout(() => {
+                if (height >= 190) {
+                    currentMessages.push({ text: 'Ну норм.', emoji: '👍', delay: 600 });
+                } else if (height < 190 && height >= 170) {
+                    currentMessages.push({ text: 'Ну неплохо.', emoji: '😐', delay: 600 });
+                } else {
+                    currentMessages.push({ text: '...', emoji: '😶', delay: 600 });
+                }
+            }, 100);
+        }
+        else if (weight < 90 && weight >= 75) {
+            currentMessages.push({ text: '😊 Ну-ка, ну-ка!', emoji: '😊', delay: 800 });
+            
+            // Второе сообщение
+            setTimeout(() => {
+                if (height >= 190) {
+                    currentMessages.push({ text: 'Уууу... Ну палочка!', emoji: '📏', delay: 800 });
+                } else {
+                    currentMessages.push({ text: 'Ну неплохо!', emoji: '👌', delay: 800 });
+                }
+            }, 100);
+        }
+        else {
+            currentMessages.push({ text: '🐥 Даммм.. Малыш!', emoji: '🐥', delay: 800 });
+            
+            // Второе сообщение
+            setTimeout(() => {
+                if (height >= 190) {
+                    currentMessages.push({ text: 'Сочувствую!', emoji: '😔', delay: 800 });
+                } else if (height < 190 && height >= 165) {
+                    currentMessages.push({ text: 'Ну терпимо!', emoji: '😅', delay: 800 });
+                } else {
+                    currentMessages.push({ text: 'Так машина же!', emoji: '🚗', delay: 800 });
+                }
+            }, 100);
+        }
+        
+        // Сохраняем результат
+        const finalResult = currentMessages.map(m => m.text).join(' ');
+        saveMeasurement('weight', weight, height, finalResult);
+    }
+    
+    function showNextMessage() {
+        if (currentStep < currentMessages.length) {
+            const message = currentMessages[currentStep];
+            
+            // Показываем сообщение
+            showMessage(message.text, message.emoji, false);
+            
+            currentStep++;
+            
+            // Запланировать следующее сообщение
+            if (currentStep < currentMessages.length) {
+                setTimeout(showNextMessage, message.delay);
+            } else {
+                // Все сообщения показаны
+                setTimeout(finishMeasurement, 1000);
+            }
+        }
+    }
+    
+    function showMessage(text, emoji, immediate = false) {
+        const resultArea = document.getElementById('resultText');
+        const emojiArea = document.getElementById('resultEmoji');
+        
+        if (immediate) {
+            // Прямой вывод (для ошибок)
+            resultArea.textContent = text;
+            emojiArea.textContent = emoji;
+            resultArea.style.opacity = '1';
+            resultContainer.classList.add('active');
+            resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+            // Постепенный вывод с анимацией
+            resultArea.style.opacity = '0.3';
+            
+            setTimeout(() => {
+                resultArea.textContent = text;
+                emojiArea.textContent = emoji;
+                resultArea.style.opacity = '1';
+                resultContainer.classList.add('active');
+                
+                // Анимация
+                emojiArea.classList.add('pulse');
+                setTimeout(() => {
+                    emojiArea.classList.remove('pulse');
+                }, 300);
+                
+                // Прокрутка
+                resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        }
+    }
+    
+    function finishMeasurement() {
+        isMeasuring = false;
+        
+        // Разблокируем кнопки
+        document.querySelectorAll('.measure-btn, .choice-btn').forEach(btn => {
+            btn.disabled = false;
+            btn.style.opacity = '1';
+        });
+        
+        // Очищаем поля ввода
+        document.getElementById('sizeInput').value = '';
+        document.getElementById('sizeHeightInput').value = '';
+        document.getElementById('weightInput').value = '';
+        document.getElementById('weightHeightInput').value = '';
+        
+        // Показываем финальное сообщение
+        setTimeout(() => {
+            showMessage('✅ Измерение завершено!', '🎯', true);
+        }, 500);
+        
+        // Обновляем историю
+        renderHistory();
+    }
+    
+    function clearResult() {
+        const resultArea = document.getElementById('resultText');
+        const emojiArea = document.getElementById('resultEmoji');
+        
+        resultArea.textContent = 'Нажмите "Измерить" чтобы начать...';
+        emojiArea.textContent = '🤔';
+        resultArea.style.opacity = '1';
+    }
+    
+    // Сохранение измерения
+    function saveMeasurement(type, value1, value2, result) {
+        const measurement = {
+            id: Date.now(),
+            type: type,
+            value1: value1,
+            value2: value2,
+            result: result,
+            date: new Date().toLocaleString('ru-RU', {
+                day: '2-digit',
+                month: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            })
+        };
+        
+        measurementsHistory.unshift(measurement);
+        
+        // Ограничить историю 20 последними измерениями
+        if (measurementsHistory.length > 20) {
+            measurementsHistory = measurementsHistory.slice(0, 20);
+        }
+        
+        localStorage.setItem('measurementsHistory', JSON.stringify(measurementsHistory));
+    }
+    
+    // Отображение истории
+    function renderHistory() {
+        historyList.innerHTML = '';
+        
+        if (measurementsHistory.length === 0) {
+            historyList.innerHTML = `
+                <div class="history-item">
+                    <span>📭 История пуста</span>
+                    <span>—</span>
+                </div>
+            `;
+            return;
+        }
+        
+        measurementsHistory.forEach(item => {
+            const historyItem = document.createElement('div');
+            historyItem.className = 'history-item';
+            
+            const typeLabel = item.type === 'size' ? '📏 Размер' : '⚖️ Вес';
+            const valueLabel = item.type === 'size' 
+                ? `${item.value1} мм / ${item.value2} см`
+                : `${item.value1} кг / ${item.value2} см`;
+            
+            historyItem.innerHTML = `
+                <div>
+                    <span class="history-type">${typeLabel}</span>
+                    <div style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 5px;">
+                        ${item.result.substring(0, 40)}${item.result.length > 40 ? '...' : ''}
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div class="history-value">${valueLabel}</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">
+                        ${item.date}
+                    </div>
+                </div>
+            `;
+            
+            historyList.appendChild(historyItem);
+        });
+    }
+    
+    // Автовыбор первого варианта при загрузке
+    document.querySelector('.choice-btn[data-type="size"]').click();
+    
+    // Уведомление о загрузке
+    setTimeout(() => {
+        console.log('✅ Измеритель готов к работе!');
+    }, 100);
+});
+    </script>
+</body>
+</html>
