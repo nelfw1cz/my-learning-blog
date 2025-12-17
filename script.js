@@ -1,27 +1,3 @@
-window.particles = {
-    isActive: true,
-    toggle: function() {
-        const container = document.querySelector('.particles-background');
-        if (!container) return;
-        
-        this.isActive = !this.isActive;
-        container.style.opacity = this.isActive ? '1' : '0';
-        console.log(`Частицы: ${this.isActive ? 'ВКЛ' : 'ВЫКЛ'}`);
-    }
-};
-
-// Добавь кнопку в HTML для управления
-// <button id="toggleParticles">Частицы: ВКЛ</button>
-function createParticles() {
-    const container = document.querySelector('.particles-background');
-    if (!container) {
-        console.warn('⚠️ Контейнер .particles-background не найден!');
-        return;
-    }
-    
-    console.log(`🟢 Создаю ${particleCount} частиц...`);
-    // остальной код...
-}
 // ===== СИСТЕМА ЗАЩИТЫ АДМИН-ПАНЕЛИ =====
 class AdminProtection {
     constructor() {
@@ -1122,26 +1098,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Создание частиц
     function createParticles() {
       const container = document.querySelector('.particles-background');
-      if (!container) return;
+       if (!container) return;
     
       const particleCount = 40;
     
       for (let i = 0; i < particleCount; i++) {
           const particle = document.createElement('div');
           particle.classList.add('particle');
-        
-        // Случайная позиция и задержка анимации
+
+          // Случайная позиция и задержка анимации
           particle.style.left = Math.random() * 100 + 'vw';
           particle.style.setProperty('--random-x', Math.random() * 2 - 1);
-         particle.style.animationDelay = Math.random() * 20 + 's';
+          particle.style.animationDelay = Math.random() * 20 + 's';
           particle.style.animationDuration = (15 + Math.random() * 20) + 's';
         
           container.appendChild(particle);
-     }
-    }
+        }
+}
 
-    // Вызови функцию после загрузки страницы
-    createParticles();
+// Вызови функцию после загрузки страницы
+createParticles();
 });
 
 // ===== ГЛОБАЛЬНЫЕ ФУНКЦИИ ДЛЯ ОТЛАДКИ =====
@@ -1573,4 +1549,5 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
         document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
     }, 100);
+                    
 });
